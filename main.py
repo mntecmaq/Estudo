@@ -11,7 +11,7 @@ estilo_esconder_sidebar = """
 
 # 2. Inicializamos uma variável para controlar a visibilidade
 if 'mostrar_sidebar' not in st.session_state:
-    st.session_state.mostrar_sidebar = True
+    st.session_state.mostrar_sidebar = False
 
 # --- LÓGICA DE NAVEGAÇÃO ---
 def clicar_item(pagina):
