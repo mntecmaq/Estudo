@@ -1,27 +1,34 @@
 import streamlit as st
 
-# Configuração da página
-st.set_page_config(page_title="Meu App com Sidebar", layout="wide")
+# 1. Configuração para esconder a sidebar por padrão em telas pequenas
+st.set_page_config(initial_sidebar_state="collapsed")
+
+# 2. Função que processa a escolha e "limpa" o estado
+def navegar_para(pagina):
+    st.session_state.pagina_atual = pagina
+    # Aqui, no Streamlit, a sidebar recolhe automaticamente no mobile 
+    # após a interação que causa o "rerun" do script.
+
+# 3. Inicializa a página padrão
+if 'pagina_atual' not in st.session_state:
+    st.session_state.pagina_atual = "Home"
 
 # --- SIDEBAR ---
 with st.sidebar:
-    st.title("Menu de Navegação")
-    opcao = st.radio(
-        "Escolha uma página:",
-        ("Home", "Relatórios", "Configurações")
-    )
+    st.title("Menu Inteligente")
     
-    st.info("Dica: Você pode adicionar filtros e logos aqui!")
+    # Criamos botões em vez de radio para forçar a ação de clique
+    if st.button("🏠 Ir para Home"):
+        navegar_para("Home")
+        
+    if st.button("📊 Ver Relatórios"):
+        navegar_para("Relatórios")
 
-# --- CONTEÚDO PRINCIPAL ---
-if opcao == "Home":
-    st.header("Bem-vindo à Home")
-    st.write("Esta é a área principal do seu aplicativo.")
+# --- LÓGICA DE EXIBIÇÃO ---
+if st.session_state.pagina_atual == "Home":
+    st.header("Você está na Home")
+    st.write("A sidebar deve ter recolhido se você estiver no celular.")
 
-elif opcao == "Relatórios":
-    st.header("Página de Relatórios")
-    st.bar_chart({"Dados": [10, 20, 15, 25, 30]})
-
-elif opcao == "Configurações":
-    st.header("Configurações")
-    st.checkbox("Ativar notificações")
+elif st.session_state.pagina_atual == "Relatórios":
+    st.header("Relatórios Detalhados")
+    st.line_chart([1, 5, 2, 6, 3])
