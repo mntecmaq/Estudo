@@ -1,40 +1,34 @@
 import streamlit as st
 
-# 1. CSS para esconder a sidebar programaticamente
-estilo_esconder_sidebar = """
-    <style>
-        [data-testid="stSidebar"][aria-expanded="true"] {
-            display: none;
-        }
-    </style>
-"""
-
-# 2. Inicializamos uma variável para controlar a visibilidade
-if 'mostrar_sidebar' not in st.session_state:
-    st.session_state.mostrar_sidebar = False
-
-# --- LÓGICA DE NAVEGAÇÃO ---
-def clicar_item(pagina):
-    st.session_state.pagina_atual = pagina
-    # Aqui forçamos a sidebar a "sumir" mudando o estado
-    st.session_state.mostrar_sidebar = False
+# 1. Configuração da página (ajuda no mobile)
+st.set_page_config(page_title="App Estudo", initial_sidebar_state="expanded")
 
 # --- SIDEBAR ---
-if st.session_state.mostrar_sidebar:
-    with st.sidebar:
-        st.title("Menu")
-        if st.button("🏠 Home"):
-            clicar_item("Home")
-        if st.button("📊 Relatórios"):
-            clicar_item("Relatórios")
-else:
-    # Se a sidebar estiver escondida, mostramos um botão para reabri-la
-    if st.button("⬅️ Abrir Menu"):
-        st.session_state.mostrar_sidebar = True
-        st.rerun()
+with st.sidebar:
+    st.title("Navegação 🚀")
+    
+    # A Selectbox já retorna o valor selecionado instantaneamente
+    pagina = st.selectbox(
+        "Para onde vamos?",
+        ["Home", "Relatórios", "Configurações"],
+        index=0  # Começa na Home
+    )
+    
+    st.divider()
+    st.info("No celular, toque fora do menu para ele recolher automaticamente.")
 
-# --- CONTEÚDO ---
-if 'pagina_atual' not in st.session_state:
-    st.session_state.pagina_atual = "Home"
+# --- CONTEÚDO PRINCIPAL ---
+# A lógica aqui é direta: mudou a selectbox, muda o conteúdo.
+if pagina == "Home":
+    st.header("🏠 Página Inicial")
+    st.write("Você selecionou a Home. O conteúdo muda sem cliques duplos!")
+    
+elif pagina == "Relatórios":
+    st.header("📊 Área de Dados")
+    st.bar_chart([10, 30, 20, 50])
+    
+elif pagina == "Configurações":
+    st.header("⚙️ Ajustes")
+    st.toggle("Modo Escuro")
+    st.slider("Volume da Notificação", 0, 100, 50)
 
-st.write(f"### Você está em: {st.session_state.pagina_atual}")
