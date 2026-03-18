@@ -6,7 +6,7 @@ from supabase import create_client
 url = ["https://wtcpvrzwrniklnmmywbb.supabase.co"]
 key = ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0Y3B2cnp3cm5pa2xubW15d2JiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3OTMzNDMsImV4cCI6MjA4OTM2OTM0M30.gFzLiHlec9ClsmvhxBkkPktQDJ04w2e-KdlWidb0qlc"]
 
-supabase: Cliente = create_client(url, key)
+supabase = create_client(url, key)
 
 def carregar_dashboard():
     st.title("📊 Painel de Controle de Estoque")
